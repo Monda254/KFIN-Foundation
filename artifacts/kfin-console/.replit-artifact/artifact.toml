@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "KFIN Foundation Console"
+description = "A controlled Phase 0 engineering foundation console for the Kenya Forensic Intelligence Network, showing governance status, quality gates, traceability, and explicit scope boundaries without implementing operational forensic workflows."
+version = "1.0.0"
+id = "artifacts/kfin-console"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23120
+
+[services.development]
+run = "pnpm --filter @workspace/kfin-console run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kfin-console", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/kfin-console/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23120"
+BASE_PATH = "/"
